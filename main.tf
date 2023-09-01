@@ -18,12 +18,12 @@ resource "oci_core_instance" "instance0" {
   }
   source_details {
     source_type = "image"
-    source_id   = lookup(data.oci_core_images.ampere_images_ubuntu.images[0], "id")
+    source_id   = var.image_id
   }
 
   metadata = {
-    ssh_authorized_keys = (var.ssh_public_key != "") ? var.ssh_public_key : tls_private_key.compute_ssh_key[0].public_key_openssh
-    user_data           = base64encode(data.template_file.cloud-config-nat-gw.rendered)
+    ssh_authorized_keys = var.ssh_public_key
+    # user_data           = base64encode(data.template_file.cloud-config-nat-gw.rendered)
   }
 }
 
